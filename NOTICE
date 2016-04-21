@@ -1,0 +1,13 @@
+Copyright 2013 52°North Initiative for Geospatial Open Source Software GmbH
+
+Licensed under GNU General Public License, Version 2.0
+
+This project includes: 
+  52North REST Suite Webapp under GNU General Public License, Version 2.0
+  52North RESTful SensorWeb Suite under GNU General Public License, Version 2.0
+  Cross-Origin Resource Sharing (CORS) Filter under The Apache Software License, Version 2.0
+  Java Property Utility under The Apache Software License, Version 2.0
+  Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  SLF4J API Module under MIT License
+

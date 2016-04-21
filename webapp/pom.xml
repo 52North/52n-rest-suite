@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.n52.sensorweb-suite</groupId>
+        <artifactId>52n-rest-suite</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>webapp</artifactId>
+    <packaging>war</packaging>
+    <name>52North REST Suite Webapp</name>
+    <description>Orchestrating Webapp of RESTful 52North services</description>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>2.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <stopKey>C</stopKey>
+                    <stopPort>34343</stopPort>
+                    <scanIntervalSeconds>3</scanIntervalSeconds>
+                    <webAppConfig>
+                        <contextPath>/${project.build.finalName}</contextPath>
+                        <extraClasspath>target/classes;../tasking-api/target/classes</extraClasspath>
+                    </webAppConfig>
+                    <scanTargets>
+                        <scanTarget>target/classes</scanTarget>
+                        <scanTarget>../tasking-api/target/classes</scanTarget>
+                    </scanTargets>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+    
+    </profiles>
+</project>
