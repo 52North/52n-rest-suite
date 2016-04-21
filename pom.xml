@@ -82,7 +82,7 @@
 				<version>${project.version}</version>
             </dependency>
             
-            <!-- 52n REST Services -->
+            <!-- 52n REST APIs -->
             <dependency>
                 <groupId>org.n52.eventing-api</groupId>
                 <artifactId>rest</artifactId>

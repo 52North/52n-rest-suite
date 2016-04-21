@@ -13,6 +13,14 @@
     <description>Orchestrating Webapp of RESTful 52North services</description>
     
     <dependencies>
+        
+        <!-- 52n REST APIs -->
+        <dependency>
+            <groupId>org.n52.eventing-api</groupId>
+            <artifactId>rest</artifactId>
+        </dependency>
+        
+        <!-- Runtime libraries -->
         <dependency>
             <groupId>com.thetransactioncompany</groupId>
             <artifactId>cors-filter</artifactId>
@@ -38,11 +46,10 @@
                     <scanIntervalSeconds>3</scanIntervalSeconds>
                     <webAppConfig>
                         <contextPath>/${project.build.finalName}</contextPath>
-                        <extraClasspath>target/classes;../tasking-api/target/classes</extraClasspath>
+                        <extraClasspath>target/classes</extraClasspath>
                     </webAppConfig>
                     <scanTargets>
                         <scanTarget>target/classes</scanTarget>
-                        <scanTarget>../tasking-api/target/classes</scanTarget>
                     </scanTargets>
                 </configuration>
             </plugin>

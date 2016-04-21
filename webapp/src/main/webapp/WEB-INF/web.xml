@@ -13,7 +13,7 @@
 	</listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/applicationContext.xml</param-value>
+        <param-value>/WEB-INF/spring/application-context.xml</param-value>
     </context-param>
 
 	<filter>
@@ -68,7 +68,7 @@
 		<load-on-startup>1</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/view-config.xml</param-value>
+			<param-value>/WEB-INF/spring/dispatcher-service.xml</param-value>
 		</init-param>
 	</servlet>
 
