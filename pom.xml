@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.n52</groupId>
-		<artifactId>parent</artifactId>
-		<version>2</version>
-	</parent>
-    
-	<groupId>org.n52.sensorweb-suite</groupId>
-	<artifactId>52n-rest-suite</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>52North RESTful SensorWeb Suite</name>
-	<description>52North RESTful SensorWeb Suite - Orchestrating 52n RESTful Services</description>
-	<inceptionYear>2016</inceptionYear>
-	<packaging>pom</packaging>
-    
-	<modules>
-		<module>webapp</module>
-	</modules>
-    
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.n52</groupId>
+        <artifactId>parent</artifactId>
+        <version>2</version>
+    </parent>
+
+    <groupId>org.n52.suite</groupId>
+    <artifactId>52n-rest-suite</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>52North REST Suite</name>
+    <description>52North REST Suite - Orchestrating 52n REST-Services</description>
+    <inceptionYear>2016</inceptionYear>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>webapp</module>
+    </modules>
+
     <organization>
         <name>52North Initiative for Geospatial Open Source Software GmbH</name>
         <url>http://52north.org</url>
@@ -31,24 +31,24 @@
             <email>h.bredel@52north.org</email>
         </developer>
     </developers>
-    
-	<issueManagement>
-		<system>GitHub issues</system>
-		<url>https://github.com/52North/52n-rest-suite/issues?state=open</url>
-	</issueManagement>
-    
-	<ciManagement>
-		<system>jenkins</system>
-		<url>http://build.dev.52north.org/jenkins/job/52n-rest-suite/</url>
-	</ciManagement>
-    
+
+    <issueManagement>
+        <system>GitHub issues</system>
+        <url>https://github.com/52North/52n-rest-suite/issues?state=open</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>jenkins</system>
+        <url>http://build.dev.52north.org/jenkins/job/52n-rest-suite/</url>
+    </ciManagement>
+
     <licenses>
         <license>
             <name>GNU General Public License, Version 2.0</name>
             <url>http://www.gnu.de/documents/gpl-2.0.en.html</url>
         </license>
     </licenses>
-    
+
     <scm>
         <connection>scm:git:git://github.com/52North/52n-rest-suite.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/52North/52n-rest-suite.git</developerConnection>
@@ -56,10 +56,11 @@
         <tag>HEAD</tag>
     </scm>
 
-	<properties>
-        <eventing.version>1-SNAPSHOT</eventing.version>
-        <tasking.version>1-SNAPSHOT</tasking.version>
-        
+    <properties>
+        <eventing-api.version>1-SNAPSHOT</eventing-api.version>
+        <tasking-api.version>1-SNAPSHOT</tasking-api.version>
+        <series-api.version>2.0.0-SNAPSHOT</series-api.version>
+
         <org.springframework.version>4.2.2.RELEASE</org.springframework.version>
         <logback.version>1.1.3</logback.version>
         <jackson.version>2.6.3</jackson.version>
@@ -72,30 +73,43 @@
         <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
         <currentYearDynamic>${maven.build.timestamp}</currentYearDynamic>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-    
-	<dependencyManagement>
-		<dependencies>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>webapp</artifactId>
-				<version>${project.version}</version>
+                <version>${project.version}</version>
             </dependency>
-            
+
             <!-- 52n REST APIs -->
             <dependency>
                 <groupId>org.n52.eventing-api</groupId>
                 <artifactId>rest</artifactId>
-                <version>${eventing.version}</version>
+                <version>${eventing-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.tasking-api</groupId>
                 <artifactId>rest</artifactId>
-                <version>${tasking.version}</version>
+                <version>${tasking-api.version}</version>
             </dependency>
-            
-            
             <dependency>
+            <!-- exclusions to satisfy enforcer plugin -->
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>2.7.0</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- uses older xml-apis than other fop dependencies -->
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -126,10 +140,10 @@
                 <version>1.3</version>
                 <scope>test</scope>
             </dependency>
-		</dependencies>
-	</dependencyManagement>
-    
-	<build>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -277,9 +291,9 @@
                 </executions>
             </plugin>
         </plugins>
-        
-		<pluginManagement>
-			<plugins>
+
+        <pluginManagement>
+            <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -297,16 +311,18 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.6</version>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>2.4</version>
                 </plugin>
-                
+
                 <plugin>
                     <!-- dependencies' licenses -->
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
+                    <version>1.8</version>
                     <configuration>
                         <useMissingFile>true</useMissingFile>
                         <fileTemplate>misc/license-as-csv.ftl</fileTemplate>
@@ -322,7 +338,7 @@
                         </licenseMerges>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.groovy.maven</groupId>
                     <artifactId>gmaven-plugin</artifactId>
@@ -338,7 +354,6 @@
                     </configuration>
                 </plugin>
 
-                
                 <plugin>
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
@@ -352,16 +367,34 @@
                         <timestampFormat>{0,date,yyyy-MM-dd HH:mm:ss}</timestampFormat>
                     </configuration>
                 </plugin>
-                
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>${java.compiler.source}</source>
-						<target>${java.compiler.target}</target>
-					</configuration>
-				</plugin>
-                
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.compiler.source}</source>
+                        <target>${java.compiler.target}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <configuration>
+                        <rules>
+                            <requireNoRepositories>
+                                <allowedRepositories>
+                                    <!-- TODO: remove once in release branch! atm some deps will break -->
+                                    <id>n52-releases</id>
+                                    <id>n52-snapshots</id>
+                                </allowedRepositories>
+                            </requireNoRepositories>
+                        </rules>
+                        <!-- TODO: set to true release branch! atm some deps will break -->
+                        <fail>false</fail>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.2</version>
@@ -381,23 +414,58 @@
                         </descriptors>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>9.3.7.v20160115</version>
                 </plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-	<profiles>
-		<profile>
-			<id>develop</id>
-			<properties>
-				<config.logger.level.test.global>ERROR</config.logger.level.test.global>
-				<config.logger.level.test.n52>ERROR</config.logger.level.test.n52>
-				<config.logger.level>TRACE</config.logger.level>
-			</properties>
-		</profile>
-	</profiles>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <config.logger.level.test.global>ERROR</config.logger.level.test.global>
+                <config.logger.level.test.n52>ERROR</config.logger.level.test.n52>
+                <config.logger.level>TRACE</config.logger.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>create-license-list</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-license-list</id>
+                                <goals>
+                                    <goal>aggregate-add-third-party</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+    <repositories>
+        <repository>
+            <id>n52-releases</id>
+            <name>52n Releases</name>
+            <url>https://52north.org/maven/repo/releases/</url>
+        </repository>
+
+        <repository>
+            <id>n52-snapshots</id>
+            <name>52n Snapshots</name>
+            <url>https://52north.org/maven/repo/snapshots/</url>
+        </repository>
+    </repositories>
 </project>
