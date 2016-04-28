@@ -324,6 +324,7 @@
                     <licenseMapping>
                         <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
                         <!--<param>https://raw.githubusercontent.com/52North/cdn/gh-pages/licenses/license-mappings.xml</param>-->
+                        <!--<param>misc/license-mappings.xml</param>-->
                     </licenseMapping>
                     <generateChildNotices>false</generateChildNotices>
                 </configuration>
