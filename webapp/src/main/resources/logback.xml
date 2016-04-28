@@ -2,7 +2,7 @@
 <configuration>
     <property name="logFile" value="${catalina.base:-.}/logs/sensorweb-rest-suite" />
     <appender name="sensorweb-rest-file"
-                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
         <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
         <!--for further documentation -->
