@@ -278,6 +278,31 @@
             </plugin>
 
             <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>maven-notice-plugin</artifactId>
+                <version>1.0.7-SNAPSHOT</version>
+                <configuration>
+                    <noticeTemplate>misc/NOTICE.template</noticeTemplate>
+                    <licenseMapping>
+                        <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
+                        <!--<param>https://raw.githubusercontent.com/52North/cdn/gh-pages/licenses/license-mappings.xml</param>-->
+                        <!--<param>misc/license-mappings.xml</param>-->
+                    </licenseMapping>
+                    <generateChildNotices>false</generateChildNotices>
+                </configuration>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>check-license</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <inherited>false</inherited>
@@ -311,30 +336,6 @@
                         <phase>initialize</phase>
                         <goals>
                             <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jasig.maven</groupId>
-                <artifactId>maven-notice-plugin</artifactId>
-                <configuration>
-                    <noticeTemplate>misc/NOTICE.template</noticeTemplate>
-                    <licenseMapping>
-                        <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
-                        <!--<param>https://raw.githubusercontent.com/52North/cdn/gh-pages/licenses/license-mappings.xml</param>-->
-                        <!--<param>misc/license-mappings.xml</param>-->
-                    </licenseMapping>
-                    <generateChildNotices>false</generateChildNotices>
-                </configuration>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>check-license</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
