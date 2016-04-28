@@ -61,7 +61,7 @@
         <tasking-api.version>1-SNAPSHOT</tasking-api.version>
         <series-api.version>2.0.0-SNAPSHOT</series-api.version>
 
-        <org.springframework.version>4.2.2.RELEASE</org.springframework.version>
+        <org.springframework.version>4.2.3.RELEASE</org.springframework.version>
         <logback.version>1.1.3</logback.version>
         <jackson.version>2.6.3</jackson.version>
         <geotools.version>14.0</geotools.version>
@@ -95,6 +95,21 @@
                 <version>${tasking-api.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.n52.series-api</groupId>
+                <artifactId>rest</artifactId>
+                <version>${series-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.series-api</groupId>
+                <artifactId>io</artifactId>
+                <version>${series-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.series-api</groupId>
+                <artifactId>series-dao</artifactId>
+                <version>${series-api.version}</version>
+            </dependency>
+
             <!-- exclusions to satisfy enforcer plugin -->
             <dependency>
                 <groupId>xalan</groupId>
@@ -110,6 +125,38 @@
             </dependency>
 
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -231,28 +278,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.jasig.maven</groupId>
-                <artifactId>maven-notice-plugin</artifactId>
-                <configuration>
-                    <noticeTemplate>misc/NOTICE.template</noticeTemplate>
-                    <licenseMapping>
-                        <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
-                    </licenseMapping>
-                    <generateChildNotices>false</generateChildNotices>
-                </configuration>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>check-license</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <inherited>false</inherited>
@@ -286,6 +311,29 @@
                         <phase>initialize</phase>
                         <goals>
                             <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>maven-notice-plugin</artifactId>
+                <configuration>
+                    <noticeTemplate>misc/NOTICE.template</noticeTemplate>
+                    <licenseMapping>
+                        <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
+                        <!--<param>https://raw.githubusercontent.com/52North/cdn/gh-pages/licenses/license-mappings.xml</param>-->
+                    </licenseMapping>
+                    <generateChildNotices>false</generateChildNotices>
+                </configuration>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>check-license</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -422,16 +470,47 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>2.10</version>
+            </extension>
+        </extensions>
     </build>
+
     <profiles>
         <profile>
-            <id>develop</id>
-            <properties>
-                <config.logger.level.test.global>ERROR</config.logger.level.test.global>
-                <config.logger.level.test.n52>ERROR</config.logger.level.test.n52>
-                <config.logger.level>TRACE</config.logger.level>
-            </properties>
+            <id>snapshot-dist</id>
+            <distributionManagement>
+                <repository>
+                    <id>n52-releases-dist</id>
+                    <name>repository for 52North releases</name>
+                    <url>dav:https://52north.org/maven/repo/releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>n52-snapshots-dist</id>
+                    <name>repository for 52North snapshots</name>
+                    <url>dav:https://52north.org/maven/repo/snapshots</url>
+                </snapshotRepository>
+            </distributionManagement>
         </profile>
+
+        <profile>
+            <id>disable-notice</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jasig.maven</groupId>
+                        <artifactId>maven-notice-plugin</artifactId>
+                        <configuration>
+                            <skipChecks>true</skipChecks>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>create-license-list</id>
             <build>
@@ -468,4 +547,5 @@
             <url>https://52north.org/maven/repo/snapshots/</url>
         </repository>
     </repositories>
+
 </project>
