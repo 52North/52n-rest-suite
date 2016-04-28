@@ -1,0 +1,4 @@
+{
+    "templateDirectory": "eventing/templates",
+    "publishDummyMessages": true
+}
